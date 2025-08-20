@@ -1,0 +1,10 @@
+{
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportGeneralTypeIssues": "none",
+    "reportAttributeAccessIssue": "none",
+    "reportUndefinedVariable": "none",
+    "reportFunctionMemberAccess": "none",
+    "reportArgumentType": "none"
+  }
+}

@@ -1,0 +1,1 @@
+#hada file lazm icon bach ki thab tdir inhiritance mayasralakch mochkil
