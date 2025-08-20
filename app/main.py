@@ -15,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # hada howa sah li t9dr tactivi bih les request mn les file wakhdokhrin
 app = FastAPI()
-# CORS origins hadi rah tkon list dyal les origins
+# CORS origins hadi rah tkon list dyal les origins ... 
 origins = ["http://localhost:3000"]
 """ #🔐 ملاحظة أمنية مهمة:
 لا تضع مواقع مثل google.com أو facebook.com في origins في مشروعك الحقيقي!!
