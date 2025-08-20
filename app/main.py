@@ -9,7 +9,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-# models.Base.metadata.create_all(bind=engine)
+# models.Base.metadata.create_all(bind=engine).....
 # 9alk madam rana nyusiw alembic ||models.Base.metadata.create_all(bind=engine)|| maeadna mandiro
 
 
