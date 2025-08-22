@@ -8,6 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.config import settings
 from sqlalchemy.engine.url import URL
+#from alembic import command
 
 # ---- DB setup ----
 SQLALCHEMY_DATABASE_URL = URL.create(
@@ -27,6 +28,9 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 def create_test_db():
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
+    #command.downgrade("base")  # to reset migrations
+    #command.upgrade("head")   # to apply migrations
+    
     yield
     #Base.metadata.drop_all(bind=engine)
 
