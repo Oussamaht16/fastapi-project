@@ -6,26 +6,27 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     environment: testing
+
     services:
       postgres:
         image: postgres:17
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: fastapi_test
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U ${{ secrets.DATABASE_USERNAME }}"
+          --health-cmd="pg_isready -U postgres"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
    
-    env:   # نوصل الـ app بالـ service
+    env:   # هنا بيمرر الـ secrets للكود
       DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-      DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
-      DATABASE_PORT: ${{secrets.DATABASE_PORT}}
+      DATABASE_HOSTNAME: localhost
+      DATABASE_PORT: 5432
       DATABASE_NAME: ${{ secrets.DATABASE_NAME }}_test
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       ALGORITHM: ${{ secrets.ALGORITHM }}
