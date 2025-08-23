@@ -19,6 +19,12 @@ jobs:
 
       - name: install all dependencies
         run: pip install -r requirements.txt
+
+
+      # 👇 خطوة debug
+      - name: list repo files
+        run: ls -R
+  
       - name: test with pytest
         run: 
           pip install pytest
