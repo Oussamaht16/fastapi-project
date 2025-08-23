@@ -5,17 +5,31 @@ on: [push, pull_request]
 jobs:
   tests:
     runs-on: ubuntu-latest
-    environment:
-      name: testing
-    env:   # هنا نفس القيم اللي في .env بتاعك
-      DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
-      DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: ${{ secrets.DATABASE_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DATABASE_NAME }}_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U ${{ secrets.DATABASE_USERNAME }}"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:   # نوصل الـ app بالـ service
+      DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
       DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
       DATABASE_PORT: ${{secrets.DATABASE_PORT}}
-      DATABASE_NAME: ${{secrets.DATABASE_NAME}}
-      SECRET_KEY: ${{secrets.SECRET_KEY}}
-      ALGORITHM: ${{secrets.ALGORITHM}}
-      ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
+      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}_test
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      ALGORITHM: ${{ secrets.ALGORITHM }}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
 
     steps:
       - name: Checkout code
