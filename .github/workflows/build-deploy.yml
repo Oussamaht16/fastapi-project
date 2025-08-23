@@ -8,11 +8,11 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15
+        image: postgres:17
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: fastapi_test   # default DB created at container startup
+          POSTGRES_PASSWORD: mypassword123   # مطابق لـ .env
+          POSTGRES_DB: fastapi               # مطابق لـ .env
         ports:
           - 5432:5432
         options: >-
@@ -36,11 +36,23 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # 👇 نصدر env variables عشان FastAPI يقرأها زي ما في .env
+      - name: Set environment variables
+        run: |
+          echo "DATABASE_USERNAME=postgres" >> $GITHUB_ENV
+          echo "DATABASE_PASSWORD=mypassword123" >> $GITHUB_ENV
+          echo "DATABASE_HOSTNAME=localhost" >> $GITHUB_ENV
+          echo "DATABASE_PORT=5432" >> $GITHUB_ENV
+          echo "DATABASE_NAME=fastapi" >> $GITHUB_ENV
+          echo "SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7" >> $GITHUB_ENV
+          echo "ALGORITHM=HS256" >> $GITHUB_ENV
+          echo "ACCESS_TOKEN_EXPIRE_MINUTES=30" >> $GITHUB_ENV
+
       - name: Create test database
         run: |
-          psql -h localhost -U postgres -c "CREATE DATABASE fastapi_test_test;"
+          psql -h localhost -U postgres -c "CREATE DATABASE fastapi_test;"
         env:
-          PGPASSWORD: postgres
+          PGPASSWORD: mypassword123
 
       - name: Run tests with pytest
         run: |
